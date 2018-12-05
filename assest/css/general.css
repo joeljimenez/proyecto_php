@@ -1,0 +1,22 @@
+.ofrecemos{
+	text-align: justify;
+}
+.nombre{
+	margin-top: 20px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.zoon:hover{
+    box-shadow: 4px 4px 4px 10px #EBEBEB;
+    transition: all 0.6s;
+}
+ @media only screen and (max-width: 780px) {
+ 	.nombre{
+	margin-top: 20px;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 10px;
+    color: black;
+}
+ }

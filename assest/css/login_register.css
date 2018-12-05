@@ -1,0 +1,56 @@
+.login{
+	 text-align: center;
+	 padding: 3%;
+	 font-family:Arial, Helvetica, sans-serif;
+}
+.login img{
+	width: 30%;
+}
+.login h3{
+	font-size: 30px;
+	color: #412C2F;
+}
+
+.login form{
+	width: 80%;
+	margin: auto;
+}
+.register{
+	 text-align: center;
+	 padding: 3%;
+	 font-family:Arial, Helvetica, sans-serif;
+}
+
+.register h3{
+	font-size: 30px;
+	color: #412C2F;
+}
+
+.register form{
+    width: 80%;
+	margin: auto;
+}
+.login{
+	border-right: solid #F6F4F5;
+}
+@media only screen and (max-width: 780px) {
+ .login form{
+ 	margin:3%;
+	width: 100%;
+	margin: auto;
+}
+.login{
+	border-right:none;
+}
+.login h3{
+	font-size:20px;
+}
+ .register form{
+ 	margin:3%;
+	width: 100%;
+	margin: auto;
+}
+.register h3{
+	font-size:20px;
+}
+}
