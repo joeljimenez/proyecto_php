@@ -43,9 +43,6 @@
        <a class="navbar-item" href="trabajos.php">
         <i class="fas fa-briefcase"></i>&nbsp;Empleos
       </a>       
-      <a class="navbar-item" href="">
-       <i class="fa fa-address-book"></i>&nbsp;Contactos
-      </a>
       <?php 
    if (isset($_SESSION["administrador"])) {
 	if ($_SESSION["administrador"] =="1") {

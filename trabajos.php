@@ -1,4 +1,6 @@
-<?php session_start(); include 'clases/usuario.php'; ?>
+<?php session_start(); 
+unset($_SESSION['errorPostulacion']);
+include 'clases/usuario.php'; ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,9 +38,6 @@
        <a class="navbar-item" href="trabajos.php">
         <i class="fas fa-briefcase"></i>&nbsp;Empleos
       </a>       
-      <a class="navbar-item" href="">
-       <i class="fa fa-address-book"></i>&nbsp;Contactos
-      </a>
       <?php 
    if (isset($_SESSION["administrador"])) {
 	if ($_SESSION["administrador"] =="1") {
@@ -135,44 +134,78 @@
 	</div>
 	<div class="contenido" style="background-color: white;">
 	     <span class=" menu-bar menu1">
-      <i class="fas fa-th-list"></i>   </span>
-      <center><h2 class="texto">LISTA DE EMPLEOS DE WORKEXPRESS</h2></center>
+      <i class="fas fa-th-list"></i></span>
+          
+ <center><h2 class="texto">LISTA DE EMPLEOS DE WORKEXPRESS</h2></center>
       <br>
-         <div class="columns">
+           <div class="row">
            
           <?php 
-            
-            
-            $re = $trabajo->Traer_Trabajo();
-            //var_dump($re);
+           $re = $trabajo->Traer_Trabajo();
+           // var_dump($re);
             foreach ($re as $key => $value) {
               ?>
-               <div class="column">
-           <a href="">
-        <div class="card zoon">
-            <div class="card-header">
-
-              <div class="card-header-title">
-               </div>
-            </div>
-              <div class="card-content ">
+            <div class="col-md-6">
+                   
+                   <div class="card" style="margin-bottom: 4%;">
+                       <div class="card-header">
+                          <div class="card-header-title row"> 
+                            
+                            <div class="col-md-6">
+                              <?php 
+                              $nuevo = "";
+                                  if ($key < 3) {
+                                    $nuevo = "nuevo";
+                                  }
+                               ?>
+                              <h5 class="titulo"><?php echo $value["subarea"] ?>&nbsp;
+                            <?php 
+                              if ($nuevo !="") {
+                                ?>
+                                 <small class="tag is-success"><?php echo $nuevo ?>
+                                <?php
+                              }
+                             ?>
+                            </small> </h5> 
+                            </div>
+                            
+                            <div class="col-md-6" style="text-align: right;">
+                              <h5 class="fecha tag is-warning"><?php echo $value["publicado"] ?></h5>
+                            </div>
+                              
+                           
+                          </div>
+                     </div>
+                          <div class="card-content">
+                              <strong><?php echo $value["empresa"] ?></strong> - <span><?php echo $value["provincia"] ?></span>
+                                   <br>
+                              <p style="text-align: justify;">
+                                <?php echo $value["descripcion"] ?>
+                              </p>
+                          </div>
+                          <a href="ver-trabajo.php?x=<?php echo $value["id_trabajo"] ?>">
+                        <footer class="card-footer notification">    
+                       <div style="text-align: right;">
+                         VER MAS <i class="fas fa-angle-double-right"></i>
+                       </div>
+              </footer>
+              </a>
+                   </div>
                
               </div>
-  
-        </div>
-             </a>
-                 </div>
                  <?php
             }
          ?>
         
-
-              
-         </div>
+        
  
   </div>
- </div>
 
+ </div>
+<?php 
+
+
+ ?>
  	<script src="assest/js/jquery.js"></script>
 	<script src="assest/js/iconos.js"></script>
 	<script src="assest/js/lateral.js"></script>

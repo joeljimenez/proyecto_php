@@ -137,6 +137,8 @@ public function traer_Solicitud_limit()
                 $statement->execute();
          return $statement->fetchAll();
        }else{
+        echo $sql;
+
          if ($statement->execute()) {
             return "ok";
            }else{
