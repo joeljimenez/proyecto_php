@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.2
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2018 a las 22:29:35
--- Versión del servidor: 10.1.36-MariaDB
--- Versión de PHP: 7.2.11
+-- Tiempo de generación: 06-12-2018 a las 06:01:26
+-- Versión del servidor: 10.1.34-MariaDB
+-- Versión de PHP: 7.2.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -70,6 +70,27 @@ ELSEIF consulta = 6 THEN
 DELETE FROM postulaciones WHERE id_postulacion= _id;
 ELSEIF consulta = 7 THEN 
 DELETE FROM usuario  WHERE id = _id;
+END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_filtro_trabajo` (IN `_campo` VARCHAR(50), IN `_valor` INT, IN `_consuta` INT)  BEGIN
+IF _consuta = 1
+ THEN
+set @s = concat(" select t.id_trabajo, a.nombre as area,a.id_area, b.nombre as subarea,b.id_sub,c.nombre as provincia, c.id as id_prov ,", 
+" d.nombre as empresa,d.id_tipo_trabajo ,t.salario,t.descripcion,t.nivel_laboral,t.tipo_empleo,t.publicado", 
+" from trabajo t inner join area a on t.id_area = a.id_area",  
+" inner join sub_area b on t.id_sub_are = b.id_sub",  
+" inner join provincia c on t.id_provincia = c.id", 
+" inner join tipo_trabajo d on d.id_tipo_trabajo = t.id_tipo_tra where  t.",_campo," = ", _valor ,"  order by t.publicado desc");
+PREPARE stmt from @s;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+ELSEIF _consuta = 2 THEN
+select t.id_trabajo, a.nombre as area, b.nombre as subarea,c.nombre as provincia ,d.nombre as empresa ,t.salario,t.descripcion,t.nivel_laboral,t.tipo_empleo,t.publicado
+from trabajo t inner join area a on t.id_area = a.id_area 
+inner join sub_area b on t.id_sub_are = b.id_sub 
+inner join provincia c on t.id_provincia = c.id
+inner join tipo_trabajo d on d.id_tipo_trabajo = t.id_tipo_tra order by t.publicado desc;
 END IF;
 END$$
 
@@ -261,13 +282,9 @@ CREATE TABLE `postulaciones` (
 --
 
 INSERT INTO `postulaciones` (`id_postulacion`, `id_area_p`, `id_sub_area`, `id_usuario_P`, `salario`, `fecha_post`, `estado`) VALUES
-(41, 20, 18, 25, 1000, '2018-12-05 21:10:06', 'Pendiente'),
-(42, 17, 7, 25, 1000, '2018-12-05 21:14:48', 'Pendiente'),
-(43, 24, 15, 25, 1000, '2018-12-05 21:15:52', 'Pendiente'),
-(44, 20, 18, 25, 52200, '2018-12-05 21:16:06', 'Pendiente'),
-(45, 24, 15, 25, 1000, '2018-12-05 21:16:41', 'Pendiente'),
-(46, 20, 18, 25, 2000, '2018-12-05 21:16:56', 'Pendiente'),
-(47, 15, 7, 25, 30000, '2018-12-05 21:17:06', 'Pendiente');
+(49, 20, 18, 25, 1500, '2018-12-05 22:56:11', 'Pendiente'),
+(50, 17, 7, 25, 1000, '2018-12-06 02:52:16', 'Pendiente'),
+(51, 20, 18, 25, 1000, '2018-12-06 02:54:58', 'Pendiente');
 
 -- --------------------------------------------------------
 
@@ -335,7 +352,8 @@ CREATE TABLE `solicitud_info` (
 --
 
 INSERT INTO `solicitud_info` (`id`, `email`, `nombre`, `pregunta`, `fecha`, `estado`) VALUES
-(17, 'tonyjoe1110@hotmail.com', 'joel jimenez', ' Como postularme facil mente\r\n', '2018-12-05 17:22:10', 1);
+(17, 'tonyjoe1110@hotmail.com', 'joel jimenez', ' Como postularme facil mente\r\n', '2018-12-05 17:22:10', 1),
+(18, 'miriam@hotmail.com', 'miriam jimenez', 'quiero cemex', '2018-12-06 02:53:35', 0);
 
 -- --------------------------------------------------------
 
@@ -443,7 +461,8 @@ INSERT INTO `trabajo` (`id_trabajo`, `id_area`, `id_sub_are`, `id_provincia`, `s
 (25, 23, 17, 2, 520, 'se busca contador con experienciaa', 13, 'Gerencia', 'Temporario', '2018-12-05 17:53:15'),
 (26, 22, 10, 1, 2000, 'If you want to change the size of a single column, you can use one of the following classes:', 17, 'Seni/ Semi Senio', 'Full - Time', '2018-12-05 17:54:01'),
 (27, 17, 7, 2, 1200, 'Se busca funcionario, ingles.', 13, 'Gerencia', 'Full - Time', '2018-12-05 18:49:44'),
-(28, 20, 18, 4, 1200, 'Toma órdenes de pedidos de los clientes,\r\nRealiza cobros a los clientes con prontitud y honradez,\r\nPrepara y mantiene la calidad  de las bebidas de acuerdo con las recetas y estándares de presentación dados por la empresa.\r\nSigue las reglas  de seguridad y sanidad para todos los productos\r\nBrinda un servicio personalizado.\r\nCuida del orden y la limpieza en el área de trabajo.\r\nCumple con los procedimientos operativos, incluyendo  el manejo de  los cobros y políticas de   seguridad establecidos por la empresa.', 16, 'Jefe / Supervisor', 'Part - Time', '2018-12-05 19:03:30');
+(28, 20, 18, 4, 1200, 'Toma órdenes de pedidos de los clientes,\r\nRealiza cobros a los clientes con prontitud y honradez,\r\nPrepara y mantiene la calidad  de las bebidas de acuerdo con las recetas y estándares de presentación dados por la empresa.\r\nSigue las reglas  de seguridad y sanidad para todos los productos\r\nBrinda un servicio personalizado.\r\nCuida del orden y la limpieza en el área de trabajo.\r\nCumple con los procedimientos operativos, incluyendo  el manejo de  los cobros y políticas de   seguridad establecidos por la empresa.', 16, 'Jefe / Supervisor', 'Part - Time', '2018-12-05 19:03:30'),
+(29, 18, 8, 1, 5000, 'joell jimenez nuevo', 15, 'Seleccione Nivel', 'Full - Time', '2018-12-06 02:56:14');
 
 -- --------------------------------------------------------
 
@@ -469,7 +488,7 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellido`, `correo`, `puesto`, `provincia`, `sexo`, `password`, `tipo`, `activo`) VALUES
-(25, 'Abi_Doco', 'Arias', 'admin@admin', 'programador', 1, 1, '$2a$07$asxx54ahjppf45sd87a5aumUskocpQucMnvwsUt.aC6WLWGcLNcY6', 1, 1);
+(25, 'Abi', 'Arias', 'admin@admin', 'programador', 1, 1, '$2a$07$asxx54ahjppf45sd87a5aumUskocpQucMnvwsUt.aC6WLWGcLNcY6', 1, 1);
 
 --
 -- Índices para tablas volcadas
@@ -554,13 +573,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `area`
 --
 ALTER TABLE `area`
-  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id_area` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `postulaciones`
 --
 ALTER TABLE `postulaciones`
-  MODIFY `id_postulacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id_postulacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT de la tabla `provincia`
@@ -578,7 +597,7 @@ ALTER TABLE `sexo`
 -- AUTO_INCREMENT de la tabla `solicitud_info`
 --
 ALTER TABLE `solicitud_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `sub_area`
@@ -602,7 +621,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `trabajo`
 --
 ALTER TABLE `trabajo`
-  MODIFY `id_trabajo` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_trabajo` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`

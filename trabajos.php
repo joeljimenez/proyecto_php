@@ -102,6 +102,8 @@ include 'clases/usuario.php'; ?>
     <strong>FILTROS</strong>
     </center>
 		<ul>
+      <li style="background-color: #E4E6FF"><a href="trabajos.php?" title="">Mostrar Todo</a></li>
+
       <strong><label>Area</label></strong><br>
       <?php 
        $trabajo = new Trabajo();
@@ -110,14 +112,14 @@ include 'clases/usuario.php'; ?>
          foreach ($respuesta1 as $key => $value) {
          
        ?>
-			<li><a href="mantenimiento.php?id=1" title=""><?php echo $value["nombre"] ?></a></li>
+			<li><a href="trabajos.php?cam=id_area&id=<?php echo $value["id_area"] ?>" title=""><?php echo $value["nombre"] ?></a></li>
     <?php } ?>
       <strong><label>Empresa</label></strong><br>
       <?php 
           $respuesta2=$trabajo->Traer_Empresa();
          foreach ($respuesta2 as $key => $value) {
        ?>
-			<li><a href="mantenimiento.php?id=2" title=""><?php echo $value["nombre"] ?></a></li>
+			<li><a href="trabajos.php?cam=id_tipo_tra&id=<?php echo $value["id_tipo_trabajo"] ?>" title=""><?php echo $value["nombre"] ?></a></li>
     <?php } ?>
       <strong><label>Provincia</label></strong><br>
       <?php 
@@ -125,7 +127,7 @@ include 'clases/usuario.php'; ?>
        
          foreach ($respuesta3 as $key => $value) {
        ?>
-			<li><a href="mantenimiento.php?id=3" title=""><?php echo $value["nombre"] ?></a></li>
+			<li><a href="trabajos.php?cam=id_provincia&id=<?php echo $value["id"] ?>" title=""><?php echo $value["nombre"] ?></a></li>
     <?php } ?>
  
 		</ul>
@@ -141,7 +143,17 @@ include 'clases/usuario.php'; ?>
            <div class="row">
            
           <?php 
-           $re = $trabajo->Traer_Trabajo();
+          if (isset($_GET["cam"]) && isset($_GET["id"]) ) {
+           $data = array('campo' => $_GET["cam"],
+                        'valor' => $_GET["id"], 
+                        'consulta' => "1",);
+          }else{
+            $data = array('campo' =>"",
+                        'valor' => "", 
+                        'consulta' => "2",);
+          }
+          
+           $re = $trabajo->Traer_Filtro($data);
            // var_dump($re);
             foreach ($re as $key => $value) {
               ?>

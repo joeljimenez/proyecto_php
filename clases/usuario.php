@@ -348,6 +348,18 @@ public function traer_Solicitud_limit()
          $statement=null;
   }
 
+     public function Traer_Filtro($data)
+   {
+       $sql ="CALL `sp_filtro_trabajo`('".$data["campo"]."', '".$data["valor"]."', '".$data["consulta"]."')";
+       $statement = Conexion::conectar()->prepare($sql);
+       $statement->execute();
+         return $statement->fetchAll();
+         $statement->close();
+         $statement=null;
+
+   }
+
+
  }
 
  ?>

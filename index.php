@@ -182,7 +182,7 @@
                        if (isset($_SESSION["session"])) {
 				   ?>
                 <p class="card-footer-item">
-				  <a class="button is-primary is-outlined" href="" >Postulate Ya! &nbsp;<i class="fa fa-folder"></i></a>
+				  <a class="button is-primary is-outlined" href="trabajos.php" >Postulate Ya! &nbsp;<i class="fa fa-folder"></i></a>
                </p>	
                    <?php 
                     }
@@ -203,14 +203,33 @@
 			    <div class="card-content">
 			<p class="ofrecemos">
 				Ofertas de empleo 
-Según los datos que aporta el Ministerio de Empleo, el tipo de empresas es que más trabajadores contrata son las que se dedican a las áreas de ciencias, ingeniería, tecnología y matemáticas. Obtenido las siguientes:
+                Según los datos que aporta el Ministerio de Empleo, el tipo de empresas es que más trabajadores contrata son las que se dedican 
+                a las áreas de ciencias, ingeniería, tecnología y matemáticas. Obtenido las siguientes:
 
-			</p>
+            </p>
+            <div class="row">
+            <?php 
+            include 'clases/usuario.php';
+             $trabajo = new Trabajo();
+             $respuesta1=$trabajo->Traer_area();
+             foreach ($respuesta1 as $key => $value) {
+             	?>
+
+                <div class="col-md-4">
+                <ul>
+         <li><a href="trabajos.php?cam=id_area&id=<?php echo $value["id_area"] ?>" title=""><?php echo $value["nombre"] ?></a></li>
+             	</ul>		
+                </div>
+
+             	<?php 
+             }
+             ?>
+             </div>
 				</div>
 				<footer class="card-footer">
  
                 <p class="card-footer-item">
-				  <a class="button is-primary is-outlined" href="" >Ver mas &nbsp;<i class="fa fa-arrow-right"></i></a>
+				  <a class="button is-primary is-outlined" href="trabajos.php" >Ver mas &nbsp;<i class="fa fa-arrow-right"></i></a>
                </p>
                 </footer>
  
